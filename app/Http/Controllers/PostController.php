@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use App\Http\Controllers\PostController;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Str;
 
@@ -39,12 +40,15 @@ class PostController extends Controller
     {
          
         // dd($request->input('email'));
-        // $config=['table'=>'contacts', 'length'=>10, 'prefix'=>''];
-        // $id = IdGenerator::generate($config);
+        // $config=['table'=>'contacts', 'field'=>'unique_code', 'length'=>10, 'prefix'=>date('ym')];
+        $id = IdGenerator::generate(['table' => 'contacts','field'=>'id', 'length' => 10, 'prefix' =>date('Y')]);
+        //output: 1910000001
         // $unique_id=floor(time()-999999999);
         $message = new Contact();
+        // $numID= Contact::where('id');
+        // $id = count($numID)+1;
+        $message->id =$id; 
         $message->name = $request->input('name');
-        $message->unique_code =floor(time()-999999999); 
         $message->email = $request->input('email');
         $message->subject = $request->input('subject');
         $message->message = $request->input('message');
